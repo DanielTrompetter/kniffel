@@ -92,8 +92,8 @@ class GameLogic
       roll3 = random.nextInt(6) + 1;
       roll4 = random.nextInt(6) + 1;
       roll5 = random.nextInt(6) + 1;
-      stdout.write('\r$roll1 $roll2 $roll3 $roll4 $roll5 ');
-      await Future.delayed(Duration(milliseconds: 200));
+      stdout.write('\r$roll1 $roll2 $roll3 $roll4 $roll5 '); // \r für Repeat also wieder zurück an Zeilenanfang!
+      await Future.delayed(Duration(milliseconds: 200)); // damit es etwas nach "würfeln" aussieht xD
     }
     roll.add(roll1);
     roll.add(roll2);
@@ -124,7 +124,7 @@ class GameLogic
     availableCheck[FieldValue.sechser] = (wurf.contains(6) && result[FieldValue.sechser] == 0) ? haeufigkeit[6]! * 6 : 0;
 
     // Untere Hälfte
-    availableCheck[FieldValue.kniffel] = haeufigkeit.containsValue(5) ? 50 : 0;
+    availableCheck[FieldValue.kniffel] = haeufigkeit.containsValue(5) && result[FieldValue.kniffel] == 0?50:0;
     availableCheck[FieldValue.viererpasch] = (testAufViererPasch(haeufigkeit)!=0 && result[FieldValue.viererpasch] == 0) ? testAufViererPasch(haeufigkeit):0;
     availableCheck[FieldValue.dreierpasch] =  (testAufDreierPasch(haeufigkeit)!=0 && result[FieldValue.viererpasch] == 0) ? testAufDreierPasch(haeufigkeit):0;
     availableCheck[FieldValue.fullHouse] = (haeufigkeit.containsValue(3) && haeufigkeit.containsValue(2)) && result[FieldValue.dreierpasch] == 0?25:0;

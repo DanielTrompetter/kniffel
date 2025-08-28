@@ -19,7 +19,7 @@ Future<void> main() async
     {
       // human interaction
       print("Dein Wurf:");
-      List<int> wurf = await logic.wurf();
+      List<int> wurf = await logic.wurf(); // muss mit await weil siehe dort!
       logic.evaluate(currentplayer, wurf);//2,5,3,2,3]);
       // switch player
       currentplayer = switchPlayer(currentplayer);
