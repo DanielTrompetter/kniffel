@@ -38,7 +38,7 @@ Future<void> main() async
     bool allfieldsHuman = true;
     for (int feldValue in logic.humanResult.values) 
     {
-      if (feldValue == 0 || feldValue == -1) 
+      if (feldValue == 0) 
       {
         allfieldsHuman = false;
         break;
@@ -47,7 +47,7 @@ Future<void> main() async
     bool allfieldsComputer = true;
     for (int feldValue in logic.computerResult.values) 
     {
-      if (feldValue == 0 || feldValue == -1) 
+      if (feldValue == 0) 
       {
         allfieldsComputer = false;
         break;

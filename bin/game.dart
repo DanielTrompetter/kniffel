@@ -126,8 +126,8 @@ class GameLogic
     // Untere Hälfte
     availableCheck[FieldValue.kniffel] = haeufigkeit.containsValue(5) && result[FieldValue.kniffel] == 0?50:0;
     availableCheck[FieldValue.viererpasch] = (testAufViererPasch(haeufigkeit)!=0 && result[FieldValue.viererpasch] == 0) ? testAufViererPasch(haeufigkeit):0;
-    availableCheck[FieldValue.dreierpasch] =  (testAufDreierPasch(haeufigkeit)!=0 && result[FieldValue.viererpasch] == 0) ? testAufDreierPasch(haeufigkeit):0;
-    availableCheck[FieldValue.fullHouse] = (haeufigkeit.containsValue(3) && haeufigkeit.containsValue(2)) && result[FieldValue.dreierpasch] == 0?25:0;
+    availableCheck[FieldValue.dreierpasch] =  (testAufDreierPasch(haeufigkeit)!=0 && result[FieldValue.dreierpasch] == 0) ? testAufDreierPasch(haeufigkeit):0;
+    availableCheck[FieldValue.fullHouse] = (haeufigkeit.containsValue(3) && haeufigkeit.containsValue(2)) && result[FieldValue.fullHouse] == 0?25:0;
     availableCheck[FieldValue.kleineStrasse] = testAufKleineStrasse(wurf) && result[FieldValue.kleineStrasse] == 0?30:0;
     availableCheck[FieldValue.grosseStrasse] = testAufGrosseStrasse(wurf) && result[FieldValue.grosseStrasse] == 0?40:0;
     availableCheck[FieldValue.chance] = result[FieldValue.chance] == 0 ? wurf.reduce((a, b) => a + b) : 0;
@@ -137,15 +137,26 @@ class GameLogic
       Map<String, FieldValue> availableSelections = {};
       int selectnumber = 1;
 
-      if (availableCheck.isEmpty) 
+      bool somethingAvailable = false;
+      for (var value in availableCheck.values) {
+        if (value != 0) {
+          somethingAvailable = true;
+          break;
+        }
+      }
+
+      if (!somethingAvailable) 
       {
         print("\nKeine gültigen Kombinationen verfügbar");
         for(FieldValue fv in result.keys)
         {
-          availableCheck[fv] = -1; 
-          availableSelections[selectnumber.toString()] = fv;
-          print('($selectnumber) für ${fieldNames[fv]}');
-          selectnumber++;
+          if(result[fv] == 0)
+          {
+            availableCheck[fv] = -1; 
+            availableSelections[selectnumber.toString()] = fv;
+            print('($selectnumber) für ${fieldNames[fv]}');
+            selectnumber++;
+          }
         }
         print("\nWähle welches Feld du streichen möchtest!");
       }
@@ -195,13 +206,19 @@ class GameLogic
     else
     {
       // set (dumb!) selection for computer
-      if (availableCheck.isEmpty) 
+      bool somethingAvailable = false;
+      for (var value in availableCheck.values) {
+        if (value != 0) {
+          somethingAvailable = true;
+          break;
+        }
+      }
+      if (!somethingAvailable) 
       {
-        print("\nKeine gültigen Kombinationen verfügbar");
         FieldValue? key;
         for(FieldValue fv in result.keys)
         {
-          if(result[fv]!<=0)
+          if(result[fv]==0)
           {
             result[fv] = -1;
             key = fv;
