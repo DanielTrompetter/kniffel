@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:math';
 
-enum Gamestate { juststarted, running, finished }
 enum Players { human, computer }
 
 enum FieldValue
@@ -76,6 +75,7 @@ void emptyResults()
   };
 }
 
+// erzeugt eine Liste mit 5 Random-Werten und zeigt das "animiert" an
 Future<List<int>> wurf() async 
 {
   final random = Random();
@@ -104,6 +104,7 @@ Future<List<int>> wurf() async
   return roll;
 }
 
+// wertet den aktuellen wurf aus und gibt dem Player einige Auswahlmöglichkeiten
 void evaluate(Players player, List<int> wurf)
 {
   Map<int, int> haeufigkeit = {};
@@ -287,16 +288,16 @@ int testAufDreierPasch(Map<int, int> haeufigkeit)
   
 }
 
+// main mit der eigentlichen kleinen State-Machine
 Future<void> main() async 
 {
   print("Willkommen zu Kniffel!");
   print("----------------------");
 
-  Gamestate currentstate = Gamestate.juststarted;
   Players currentplayer = Players.human;
   emptyResults();
 
-  while(currentstate == Gamestate.juststarted || currentstate == Gamestate.running)
+  while(true)
   {
     if(currentplayer == Players.human) 
     {
@@ -306,7 +307,6 @@ Future<void> main() async
       evaluate(currentplayer, wurfL);//2,5,3,2,3]);
       // switch player
       currentplayer = switchPlayer(currentplayer);
-      currentstate = Gamestate.running;
     }
     else
     {
@@ -318,6 +318,7 @@ Future<void> main() async
       showResult(false); // nach beiden Würfen Zwischenstand anzeigen!
     }
 
+    // prüft für Human ob alle Felder mit einem Wert gefüllt
     bool allfieldsHuman = true;
     for (int feldValue in humanResult.values) 
     {
@@ -327,6 +328,8 @@ Future<void> main() async
         break;
       }
     }
+
+    // prüft für Computer ob alle Felder mit einem Wert gefüllt
     bool allfieldsComputer = true;
     for (int feldValue in computerResult.values) 
     {
@@ -336,6 +339,8 @@ Future<void> main() async
         break;
       }
     }
+
+    // sind alle Felder gefüllt, dann zeige Endresultat und beende Game
     if(allfieldsHuman || allfieldsComputer)
     {
       showResult(true);
