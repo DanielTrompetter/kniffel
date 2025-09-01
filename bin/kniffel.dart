@@ -303,8 +303,8 @@ Future<void> main() async
     {
       // human interaction
       print("Dein Wurf:");
-      List<int> wurfL = await wurf(); // muss mit await weil siehe dort!
-      evaluate(currentplayer, wurfL);//2,5,3,2,3]);
+      List<int> wurfResult = await wurf(); // muss mit await weil siehe dort!
+      evaluate(currentplayer, wurfResult);//2,5,3,2,3]);
       // switch player
       currentplayer = switchPlayer(currentplayer);
     }
@@ -312,8 +312,8 @@ Future<void> main() async
     {
       // computer logic
       print("Computer ist am würfeln:");
-      List<int> wurfL = await wurf();
-      evaluate(currentplayer, wurfL);//2,5,3,2,3])
+      List<int> wurfResult = await wurf();
+      evaluate(currentplayer, wurfResult);//2,5,3,2,3])
       currentplayer = switchPlayer(currentplayer);
       showResult(false); // nach beiden Würfen Zwischenstand anzeigen!
     }
